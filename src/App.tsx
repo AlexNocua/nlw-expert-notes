@@ -11,20 +11,24 @@ import { NodeCard } from './components/node-card'
 //   content: 'hello word' //respetar el tipo de dato en la creacion de los objetos
 // }
 
+//mejora de nuestro codigo 
+
+interface Note {
+  id: string,
+  date: Date,
+  content: string
+}
+
+
+
+
+
 export function App() {
   //criacao de nosso estados
-  const [notes, setNotes] = useState([
+  // useState<Note[]> con esto se habla que este arreglo de notas va a tener este formato 
+  const [notes, setNotes] = useState<Note[]>([
     //inicializacao de nossos olbjetos
-    {
-      id: 1,
-      date: new Date(),
-      content: 'hello word'
-    },
-    {
-      id: 2,
-      date: new Date(),
-      content: 'Alex',
-    }
+
     //de esta manera es como se van a ir agregando las notas 
   ]);
 
@@ -39,7 +43,8 @@ export function App() {
   //se cambia el content por el NewNoteCardProps
   function onNoteCreated(content: string) {
     const newNote = {
-      id: Math.random(),
+      //cambiamos esto porque teniendo la suerte puede cxaer el mismo numero de idid: Math.random(),
+      id: crypto.randomUUID(),//este va a generar un formato unico de id guardado como string
       date: new Date(),
       content,
       //el contenido de la nota va a ir como parametro

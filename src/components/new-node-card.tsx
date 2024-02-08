@@ -50,6 +50,13 @@ export function NewNodeCard({ onNoteCreated }: NewNoteCardProps) {
         //alerta 
         toast.success('Nota criada com suceso.')
 
+        //resetar contennido de mi text area
+        setContent('')
+        //volver a mostrar el mensaje despues de guardar la nota
+        setShouldShowboarding(true)
+
+
+
     }
     return (
         <Dialog.Root>
@@ -93,8 +100,11 @@ export function NewNodeCard({ onNoteCreated }: NewNoteCardProps) {
                                         autoFocus
                                         className="text-sm leading-4 text-slate-400 bg-transparent resize-none flex-1 outline-none"
                                         onChange={handleContentChange}
+                                        value={content}
                                     >
-                                        {/*onChange es un evento que es disparado cuando la ffente digita dentro del texttarea */}
+                                        {/*
+                                        value=content es para que cada ves que aplique el handlecontentchange el valor de contenido se limpie
+                                        onChange es un evento que es disparado cuando la ffente digita dentro del texttarea */}
                                     </textarea>
 
                                 )
