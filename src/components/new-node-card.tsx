@@ -10,7 +10,13 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { toast } from "sonner";
 
 
-export function NewNodeCard() {
+
+interface NewNoteCardProps {
+    onNoteCreated: (content: string) => void
+}
+
+
+export function NewNodeCard({ onNoteCreated }: NewNoteCardProps) {
     // Comienzo de los estados para la manipulacion de los datos
     const [shouldShowOnboarding, setShouldShowboarding] = useState(true);
 
@@ -38,6 +44,9 @@ export function NewNodeCard() {
         //importante que como el formulario lo colocamos com submit el boton tiene que ser del mismo tipo submit para que fncione de lo contrario no va a funcionar.F
         console.log(content)
         event.preventDefault()
+
+        //Una nota creada pasando nuestro contenido
+        onNoteCreated(content)
         //alerta 
         toast.success('Nota criada com suceso.')
 

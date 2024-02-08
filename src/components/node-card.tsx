@@ -39,9 +39,18 @@ export function NodeCard({ note }: NoteCardProps) {
 
             <Dialog.Trigger className='rounded-md text-left flex flex-col bg-slate-800 my-3 p-5 gap-3  overflow-hidden outline-none relative hover:ring-2 hover:ring-slate-600 focus:ring-2 focus:ring-lime-400'>
                 <span className='text-sm font-medium text-slate-300'>
+
+                    {
+                        //toda vez que un estadp cambie va a renderizar y mostrar en pantalla 
+                        formatDistanceToNow(note.date, {
+                            locale: ptBR,
+                            addSuffix: true
+                        })}
+
                     {
                         //Despues de anexar propiedades hay que recordar eque en react  si se ñpñaman esas propiedades se colocan entre corchetes.
-                        note.date.toISOString()}
+                        // note.date.toISOString()
+                    }
                 </span>
                 <p className='text-sm leading-6 text-slate-400'>
                 </p>
@@ -67,10 +76,11 @@ export function NodeCard({ note }: NoteCardProps) {
                             {//Despues de anexar propiedades hay que recordar eque en react  si se ñpñaman esas propiedades se colocan entre corchetes.
                                 //note.date.toISOString()
                             }
-                            {formatDistanceToNow(note.date, {
-                                locale: ptBR,
-                                addSuffix: true
-                            })}
+                            {
+                                formatDistanceToNow(note.date, {
+                                    locale: ptBR,
+                                    addSuffix: true
+                                })}
                         </span> há
                         <p className='text-sm leading-6 text-slate-400'>
                         </p>
