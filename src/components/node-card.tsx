@@ -17,6 +17,8 @@ import { X } from "lucide-react";
 
 
 
+
+
 //objeto
 interface NoteCardProps {
     note: {
@@ -81,7 +83,7 @@ export function NodeCard({ note }: NoteCardProps) {
                                     locale: ptBR,
                                     addSuffix: true
                                 })}
-                        </span> há
+                        </span>
                         <p className='text-sm leading-6 text-slate-400'>
                         </p>
                         {note.content}

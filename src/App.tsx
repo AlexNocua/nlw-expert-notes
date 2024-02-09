@@ -1,6 +1,6 @@
 
 //importacion de imagenes
-import { useState } from 'react'
+import { ChangeEvent, useState } from 'react'
 import logo from './assets/logo-nlw-expert.svg'
 import { NewNodeCard } from './components/new-node-card'
 import { NodeCard } from './components/node-card'
@@ -25,12 +25,28 @@ interface Note {
 
 export function App() {
   //criacao de nosso estados
-  // useState<Note[]> con esto se habla que este arreglo de notas va a tener este formato 
-  const [notes, setNotes] = useState<Note[]>([
-    //inicializacao de nossos olbjetos
+  //creacion de estado de buscar nota
+  const [search, setSearch] = useState('')
 
-    //de esta manera es como se van a ir agregando las notas 
-  ]);
+
+
+
+
+
+  // useState<Note[]> con esto se habla que este arreglo de notas va a tener este formato 
+  // const [notes, setNotes] = useState<Note[]>([
+  // la parde de arriba tiene la inciciacion de nuestras noyas con contenidos vacios por lo que la gente necesita crear una arrow function 
+  const [notes, setNotes] = useState<Note[]>(() => {
+    const notesOnStorage = localStorage.getItem('notes')
+    if (notesOnStorage) {
+      return JSON.parse(notesOnStorage)
+    }
+    return []
+  });
+  //inicializacao de nossos olbjetos
+  //de esta manera es como se van a ir agregando las notas 
+
+
 
   //creacion de otra funcion para ricibir cada una de los contenidos
   //ese componente recibe una propiedad aue es una funcion que recibe un parametro y no tiene un retorno
@@ -53,14 +69,39 @@ export function App() {
     //en react no se ouede alterar alguna de la sinformaciones ya guardadas
     //por lo que siemore crea una infromacion nueva
     //creacion de este nuevo arreglo ordenado por la fecha de creacion
-    setNotes([newNote, ...notes])
+
+
+    //guardado de notas por localStorage
+
+    const noteArray = [newNote, ...notes]
+    //const muestraJson = JSON.stringify(noteArray)
+    // console.log (muestraJson)
+    setNotes(noteArray)
+    //Guardado de notas en el locar storage por medio de un json ya que esto no acepta arreglos
+    localStorage.setItem('notes', JSON.stringify(noteArray))
+  }
+  //json = javaScript objet notation 
+
+
+  function handleSearch(event: ChangeEvent<HTMLInputElement>) {
+    const query = event.target.value
+    setSearch(query)
   }
 
+  // console.log(search)
 
 
+  //si tengo una busqueda pero en ellas tengo un valor vacio
+  const filteredNotes = search !== ''
 
-  return (//mx margen
-    <div className='mx-auto max-w-6xl my-12 space-y-6'>
+    //n notes busque la palabra y me las pase a minuscula
+    ? notes.filter(note => note.content.toLocaleLowerCase().includes(search.toLocaleLowerCase()))
+
+    //si esta vacio por favor que retorne el estado inicial de nuestras notas
+    : notes
+
+  return (//mx margen ahora se hace responcive
+    <div className='mx-auto max-w-6xl my-12 space-y-6 px-5 md:px-0'>
       <img src={logo} alt='NLW Expert' />
 
       <form className="w-full ">
@@ -68,7 +109,10 @@ export function App() {
         <input
           type="text"
           placeholder='Busque em suas notas...'
-          className='w-full bg-transparent text-3xl font-semibold tracking-tighter outline-none placeholder:text-slate-500' />
+          className='w-full bg-transparent text-3xl font-semibold tracking-tighter outline-none placeholder:text-slate-500'
+          onChange={handleSearch}
+        />
+
       </form>
       <div className="h-px bg-slate-700">
         <div className="grid grid-cols-3 auto-rows-[250px] gap-6">
@@ -93,7 +137,7 @@ export function App() {
           {//map para recorrer cada una de nuestraas notas asi mismo qu este mismo guarde la jota que esta recibiendo
             //cada nota tiene que tener obligatoriamente la propiedad de key ={note.id} con el fin de tener un valor unico para cada nota
             //con esste id sabe que informacion fue removida o adicionada.
-            notes.map(note => {
+            filteredNotes.map(note => {
               return <NodeCard key={note.id} note={note} />
             })
           }
