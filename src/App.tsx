@@ -55,6 +55,9 @@ export function App() {
     onNoteCreated: (content: string) => void
   }
 
+  //Funcion de eliminar nota
+
+
 
   //se cambia el content por el NewNoteCardProps
   function onNoteCreated(content: string) {
@@ -80,6 +83,21 @@ export function App() {
     //Guardado de notas en el locar storage por medio de un json ya que esto no acepta arreglos
     localStorage.setItem('notes', JSON.stringify(noteArray))
   }
+
+  function onNoteDelete(id: string) {
+    //crear un nuevo arreglo 
+    const noteArray = notes.filter(note => {
+      return note.id !== id
+
+
+    })
+    setNotes(noteArray)
+    localStorage.setItem('notes', JSON.stringify(noteArray))
+
+
+  }
+
+
   //json = javaScript objet notation 
 
 
@@ -101,7 +119,7 @@ export function App() {
     : notes
 
   return (//mx margen ahora se hace responcive
-    <div className='mx-auto max-w-6xl my-12 space-y-6 px-5 md:px-0'>
+    <div className='mx-auto max-w-6xl my-12 space-y-6 px-5 '>
       <img src={logo} alt='NLW Expert' />
 
       <form className="w-full ">
@@ -115,7 +133,7 @@ export function App() {
 
       </form>
       <div className="h-px bg-slate-700">
-        <div className="grid grid-cols-3 auto-rows-[250px] gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 auto-rows-[250px] gap-6">
 
           <NewNodeCard onNoteCreated={onNoteCreated} />
           {
@@ -138,7 +156,7 @@ export function App() {
             //cada nota tiene que tener obligatoriamente la propiedad de key ={note.id} con el fin de tener un valor unico para cada nota
             //con esste id sabe que informacion fue removida o adicionada.
             filteredNotes.map(note => {
-              return <NodeCard key={note.id} note={note} />
+              return <NodeCard key={note.id} note={note} onNoteDelete={onNoteDelete} />
             })
           }
 

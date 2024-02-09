@@ -22,17 +22,20 @@ import { X } from "lucide-react";
 //objeto
 interface NoteCardProps {
     note: {
-        date: Date;
-        content: string;
+        id: string
+        date: Date
+        content: string
     }
+    onNoteDelete: (id: string) => void
 
+    
 }
 
 
 
 // export function NodeCard(props: NoteCardProps) {
 //tener en cuenta la instancia de interfaces normales y objetos
-export function NodeCard({ note }: NoteCardProps) {
+export function NodeCard({ note, onNoteDelete }: NoteCardProps) {
     // Definimos que tiene que tener estas propiedades
     return (
 
@@ -64,7 +67,7 @@ export function NodeCard({ note }: NoteCardProps) {
 
             <Dialog.Portal>
                 <Dialog.Overlay className="fixed bg-black/60 inset-0" />
-                <Dialog.Content className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[640px] w-full bg-slate-700 rounded-md flex flex-col h-[60vh] outline-none overflow-hidden">
+                <Dialog.Content className="fixed inset-0 md:inset-auto md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:max-w-[640px] w-full bg-slate-700 md:rounded-md flex flex-col md:h-[60vh] outline-none overflow-hidden">
                     {
                         //Creacion de boton de cerrar
                     }
@@ -88,8 +91,14 @@ export function NodeCard({ note }: NoteCardProps) {
                         </p>
                         {note.content}
                     </div>
+
+                    {/*
+                    cuando yo estoy danto una funcion con parametros no estoy dando yuna funcion, estoy ejecutando la funcion
+                    en esos casos se crea una arrowfunction
+                    */}
                     <button
                         type="button"
+                        onClick={() => onNoteDelete(note.id)}
                         className="w-full bg-slate-800 py-4 text-center text-sm text-slate-300 outline-none font-medium group">
                         {
                             //revisar grup para tener en cuenta el hover desde clases padre a calses hijas
